@@ -30,6 +30,7 @@ struct BankidsApp: App {
         WindowGroup {
             RootView()
                 .environment(accountManager)
+                .preferredColorScheme(.light)
         }
         .modelContainer(sharedModelContainer)
     }
