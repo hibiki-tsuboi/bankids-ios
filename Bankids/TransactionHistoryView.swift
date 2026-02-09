@@ -42,7 +42,7 @@ struct TransactionHistoryView: View {
                 }
                 .toolbarBackground(Color("PrimaryBlue"), for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
-                .toolbarColorScheme(.dark, for: .navigationBar)
+        
                 .navigationBarTitleDisplayMode(.inline)
             }
         }

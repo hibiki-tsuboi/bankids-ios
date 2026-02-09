@@ -65,7 +65,7 @@ struct WithdrawView: View {
         }
         .toolbarBackground(Color("PrimaryBlue"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarColorScheme(.dark, for: .navigationBar)
+
         .navigationBarTitleDisplayMode(.inline)
         .alert("残高不足", isPresented: $showingError) {
             Button("OK", role: .cancel) {}
