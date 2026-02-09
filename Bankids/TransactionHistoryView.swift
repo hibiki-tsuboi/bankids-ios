@@ -20,7 +20,7 @@ struct TransactionHistoryView: View {
             if transactions.isEmpty {
                 ContentUnavailableView(
                     "取引履歴がありません",
-                    systemImage: "doc.text.magnifyingglass",
+                    systemImage: "dollarsign.circle",
                     description: Text("入金または出金を行うと、ここに表示されます。")
                 )
             } else {
@@ -30,7 +30,7 @@ struct TransactionHistoryView: View {
             }
         }
         .navigationTitle("取引明細")
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitleDisplayMode(.large)
     }
 }
 

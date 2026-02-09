@@ -30,7 +30,7 @@ struct AccountListView: View {
                             HStack {
                                 Image(systemName: account.iconName)
                                     .font(.title2)
-                                    .foregroundStyle(.tint)
+                                    .foregroundStyle(Color("PrimaryBlue"))
                                     .frame(width: 32)
 
                                 VStack(alignment: .leading, spacing: 2) {
@@ -45,7 +45,7 @@ struct AccountListView: View {
 
                                 if account.id == accountManager.selectedAccountID {
                                     Image(systemName: "checkmark")
-                                        .foregroundStyle(.tint)
+                                        .foregroundStyle(Color("PrimaryBlue"))
                                         .fontWeight(.semibold)
                                 }
                             }
@@ -68,6 +68,7 @@ struct AccountListView: View {
                     } label: {
                         Label("アカウントを追加", systemImage: "plus.circle.fill")
                     }
+                    .foregroundStyle(Color("PrimaryGreen"))
                 }
             }
             .navigationTitle("アカウント")
@@ -141,10 +142,9 @@ struct AddAccountView: View {
                                 Image(systemName: icon)
                                     .font(.title)
                                     .frame(width: 44, height: 44)
-                                    .background(selectedIcon == icon ? Color.accentColor.opacity(0.2) : Color.clear)
-                                    .clipShape(Circle())
+                                    .background(selectedIcon == icon ? Color("PrimaryBlue").opacity(0.2) : Color.clear)
                             }
-                            .foregroundStyle(selectedIcon == icon ? Color.accentColor : Color.secondary)
+                            .foregroundStyle(selectedIcon == icon ? Color("PrimaryBlue") : Color.secondary)
                         }
                     }
                     .padding(.vertical, 4)
@@ -168,6 +168,8 @@ struct AddAccountView: View {
                     .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
             }
+            .tint(Color("PrimaryBlue"))
+            .tint(Color("PrimaryBlue"))
         }
     }
 }

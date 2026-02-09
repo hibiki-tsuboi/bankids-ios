@@ -44,16 +44,16 @@ struct AccountSetupView: View {
             VStack(spacing: 32) {
                 Spacer()
 
-                Image(systemName: "person.2.circle.fill")
+                Image(systemName: "banknote.fill")
                     .font(.system(size: 80))
-                    .foregroundStyle(.tint)
+                    .foregroundStyle(Color("PrimaryGreen"))
 
                 VStack(spacing: 8) {
                     Text("Bankidsへようこそ")
                         .font(.title.bold())
                     Text("お子さまの名前を入力してください")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.primary)
                 }
 
                 TextField("名前", text: $name)
@@ -67,9 +67,9 @@ struct AccountSetupView: View {
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(.tint)
+                        .background(Color("PrimaryBlue"))
                         .foregroundStyle(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
                 }
                 .padding(.horizontal, 40)
                 .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)

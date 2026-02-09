@@ -73,16 +73,16 @@ struct ContentView: View {
         VStack(spacing: 8) {
             Text("残高")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.white.opacity(0.8))
 
             Text("¥\(balance.formatted())")
                 .font(.system(size: 48, weight: .bold, design: .rounded))
-                .foregroundStyle(.primary)
+                .foregroundStyle(.white)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 32)
-        .background(.regularMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .background(Color("PrimaryBlue"))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 
     // MARK: - アクションボタン
@@ -96,9 +96,9 @@ struct ContentView: View {
                     .font(.headline)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(.green)
+                    .background(Color("PrimaryGreen"))
                     .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
             }
 
             Button {
@@ -108,9 +108,9 @@ struct ContentView: View {
                     .font(.headline)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(.orange)
+                    .background(Color("AccentRed"))
                     .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
             }
         }
     }
@@ -158,7 +158,7 @@ struct TransactionRow: View {
     var body: some View {
         HStack {
             Image(systemName: transaction.type == .deposit ? "arrow.down.circle.fill" : "arrow.up.circle.fill")
-                .foregroundStyle(transaction.type == .deposit ? .green : .red)
+                .foregroundStyle(transaction.type == .deposit ? Color("PrimaryGreen") : Color("AccentRed"))
                 .font(.title3)
 
             VStack(alignment: .leading, spacing: 2) {
@@ -173,7 +173,7 @@ struct TransactionRow: View {
 
             Text("\(transaction.type == .deposit ? "+" : "-")¥\(transaction.amount.formatted())")
                 .font(.body.monospacedDigit().bold())
-                .foregroundStyle(transaction.type == .deposit ? .green : .red)
+                .foregroundStyle(transaction.type == .deposit ? Color("PrimaryGreen") : Color("AccentRed"))
         }
         .padding(.vertical, 4)
     }
