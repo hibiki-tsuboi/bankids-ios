@@ -53,19 +53,6 @@ struct DepositView: View {
                             .font(.headline)
                             .foregroundStyle(.white)
                     }
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button("キャンセル") {
-                            dismiss()
-                        }
-                        .foregroundStyle(.white)
-                    }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button("完了") {
-                            deposit()
-                        }
-                        .disabled(amount <= 0)
-                        .foregroundStyle(.white)
-                    }
                 }
                 .toolbarBackground(Color("PrimaryBlue"), for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
