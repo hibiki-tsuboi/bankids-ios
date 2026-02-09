@@ -55,7 +55,30 @@ struct WithdrawView: View {
                 .disabled(amount <= 0)
             }
         }
-        .navigationTitle("出金")
+
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("出金")
+                    .font(.headline)
+                    .foregroundStyle(.white)
+            }
+            ToolbarItem(placement: .topBarLeading) {
+                Button("キャンセル") {
+                    dismiss()
+                }
+                .foregroundStyle(.white)
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("完了") {
+                    withdraw()
+                }
+                .disabled(amount <= 0)
+                .foregroundStyle(.white)
+            }
+        }
+        .toolbarBackground(Color("PrimaryBlue"), for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .navigationBarTitleDisplayMode(.inline)
         .alert("残高不足", isPresented: $showingError) {
             Button("OK", role: .cancel) {}

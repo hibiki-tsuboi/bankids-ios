@@ -46,12 +46,34 @@ struct DepositView: View {
                 }
                 .disabled(amount <= 0)
             }
-        }
-        .navigationTitle("入金")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-
-    private var amount: Int {
+                }
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        Text("入金")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                    }
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button("キャンセル") {
+                            dismiss()
+                        }
+                        .foregroundStyle(.white)
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("完了") {
+                            deposit()
+                        }
+                        .disabled(amount <= 0)
+                        .foregroundStyle(.white)
+                    }
+                }
+                .toolbarBackground(Color("PrimaryBlue"), for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
+                .toolbarColorScheme(.dark, for: .navigationBar)
+                .navigationBarTitleDisplayMode(.inline)
+            }
+        
+            private var amount: Int {
         Int(amountText) ?? 0
     }
 

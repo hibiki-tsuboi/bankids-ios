@@ -32,11 +32,20 @@ struct TransactionHistoryView: View {
         }
         .listStyle(.plain)
         .background(Color("LightGray"))
-        .listRowSeparator(.hidden)
-        .navigationTitle("取引明細")
-        .navigationBarTitleDisplayMode(.large)
-    }
-}
+                .listRowSeparator(.hidden)
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        Text("取引明細")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                    }
+                }
+                .toolbarBackground(Color("PrimaryBlue"), for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
+                .toolbarColorScheme(.dark, for: .navigationBar)
+                .navigationBarTitleDisplayMode(.inline)
+            }
+        }
 
 #Preview {
     let container = try! ModelContainer(for: Account.self, Transaction.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
