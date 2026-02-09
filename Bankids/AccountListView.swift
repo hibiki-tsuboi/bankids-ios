@@ -49,8 +49,15 @@ struct AccountListView: View {
                                         .fontWeight(.semibold)
                                 }
                             }
+                            .padding(.vertical, 8)
+                            .padding(.horizontal)
+                            .background(Color.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
                         }
                         .foregroundStyle(.primary)
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
                         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                             Button(role: .destructive) {
                                 accountToDelete = account
@@ -69,8 +76,14 @@ struct AccountListView: View {
                         Label("アカウントを追加", systemImage: "plus.circle.fill")
                     }
                     .foregroundStyle(Color("PrimaryGreen"))
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .shadow(color: Color("PrimaryGreen").opacity(0.3), radius: 5, x: 0, y: 2)
                 }
             }
+            .listStyle(.plain) // Use plain style for better control over backgrounds
+            .background(Color("LightGray"))
+            .listRowSeparator(.hidden)
             .navigationTitle("アカウント")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -168,7 +181,6 @@ struct AddAccountView: View {
                     .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
             }
-            .tint(Color("PrimaryBlue"))
             .tint(Color("PrimaryBlue"))
         }
     }

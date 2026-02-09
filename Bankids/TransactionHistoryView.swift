@@ -23,12 +23,16 @@ struct TransactionHistoryView: View {
                     systemImage: "dollarsign.circle",
                     description: Text("入金または出金を行うと、ここに表示されます。")
                 )
+                .foregroundStyle(Color("AccentYellow"))
             } else {
                 ForEach(transactions) { transaction in
                     TransactionRow(transaction: transaction)
                 }
             }
         }
+        .listStyle(.plain)
+        .background(Color("LightGray"))
+        .listRowSeparator(.hidden)
         .navigationTitle("取引明細")
         .navigationBarTitleDisplayMode(.large)
     }

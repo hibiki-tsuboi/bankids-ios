@@ -39,7 +39,7 @@ struct ContentView: View {
                 }
                 .padding()
             }
-            .background(Color(.systemGroupedBackground))
+            .background(Color("LightGray"))
             .navigationTitle(selectedAccount?.name ?? "Bankids")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -81,8 +81,9 @@ struct ContentView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 32)
-        .background(Color("PrimaryBlue"))
+        .background(LinearGradient(gradient: Gradient(colors: [Color("PrimaryBlue"), Color("AccentPurple")]), startPoint: .topLeading, endPoint: .bottomTrailing))
         .clipShape(RoundedRectangle(cornerRadius: 20))
+        .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 5)
     }
 
     // MARK: - アクションボタン
@@ -95,10 +96,11 @@ struct ContentView: View {
                 Label("入金", systemImage: "arrow.down.circle.fill")
                     .font(.headline)
                     .frame(maxWidth: .infinity)
-                    .padding()
+                    .padding(.vertical, 18) // Increased padding
                     .background(Color("PrimaryGreen"))
                     .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .clipShape(RoundedRectangle(cornerRadius: 15)) // Slightly less rounded than card
+                    .shadow(color: Color("PrimaryGreen").opacity(0.4), radius: 8, x: 0, y: 4)
             }
 
             Button {
@@ -107,10 +109,11 @@ struct ContentView: View {
                 Label("出金", systemImage: "arrow.up.circle.fill")
                     .font(.headline)
                     .frame(maxWidth: .infinity)
-                    .padding()
+                    .padding(.vertical, 18) // Increased padding
                     .background(Color("AccentRed"))
                     .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .clipShape(RoundedRectangle(cornerRadius: 15)) // Slightly less rounded than card
+                    .shadow(color: Color("AccentRed").opacity(0.4), radius: 8, x: 0, y: 4)
             }
         }
     }
@@ -129,6 +132,7 @@ struct ContentView: View {
                     } label: {
                         Text("すべての明細を見る")
                             .font(.subheadline)
+                            .foregroundStyle(Color("AccentYellow"))
                     }
                 }
             }
@@ -143,11 +147,10 @@ struct ContentView: View {
                     TransactionRow(transaction: transaction)
                 }
             }
-        }
-        .padding()
-        .background(.regularMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-    }
+                    }
+                    .padding()
+                    .background(Color("LightGray"))
+                    .clipShape(RoundedRectangle(cornerRadius: 16))    }
 }
 
 // MARK: - 取引行

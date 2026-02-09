@@ -44,9 +44,16 @@ struct AccountSetupView: View {
             VStack(spacing: 32) {
                 Spacer()
 
-                Image(systemName: "banknote.fill")
-                    .font(.system(size: 80))
-                    .foregroundStyle(Color("PrimaryGreen"))
+                ZStack {
+                    RoundedRectangle(cornerRadius: 30)
+                        .fill(LinearGradient(gradient: Gradient(colors: [Color("PrimaryGreen"), Color("PrimaryBlue")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .frame(width: 120, height: 120)
+                        .shadow(color: Color.black.opacity(0.2), radius: 15, x: 0, y: 10)
+
+                    Image(systemName: "banknote.fill")
+                        .font(.system(size: 60))
+                        .foregroundStyle(.white)
+                }
 
                 VStack(spacing: 8) {
                     Text("Bankidsへようこそ")
@@ -70,6 +77,7 @@ struct AccountSetupView: View {
                         .background(Color("PrimaryBlue"))
                         .foregroundStyle(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .shadow(color: Color("PrimaryBlue").opacity(0.4), radius: 8, x: 0, y: 4)
                 }
                 .padding(.horizontal, 40)
                 .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
