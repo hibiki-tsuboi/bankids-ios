@@ -167,7 +167,7 @@ struct TransactionRow: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(transaction.memo.isEmpty ? (transaction.type == .deposit ? "入金" : "出金") : transaction.memo)
                     .font(.body)
-                Text(transaction.date, style: .date)
+                Text(transaction.date.formatted(Date.FormatStyle(date: .long, time: .omitted).locale(Locale(identifier: "ja_JP"))))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
