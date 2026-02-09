@@ -9,7 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct TransactionHistoryView: View {
-    @Query(sort: \Transaction.date, order: .reverse) private var transactions: [Transaction]
+    let account: Account
+
+    private var transactions: [Transaction] {
+        account.sortedTransactions
+    }
 
     var body: some View {
         List {
@@ -31,8 +35,11 @@ struct TransactionHistoryView: View {
 }
 
 #Preview {
-    NavigationStack {
-        TransactionHistoryView()
-            .modelContainer(for: Transaction.self, inMemory: true)
+    let container = try! ModelContainer(for: Account.self, Transaction.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+    let account = Account(name: "テスト")
+    container.mainContext.insert(account)
+    return NavigationStack {
+        TransactionHistoryView(account: account)
+            .modelContainer(container)
     }
 }

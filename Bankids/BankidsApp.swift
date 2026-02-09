@@ -10,8 +10,11 @@ import SwiftData
 
 @main
 struct BankidsApp: App {
+    @State private var accountManager = AccountManager()
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
+            Account.self,
             Transaction.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
@@ -25,7 +28,8 @@ struct BankidsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
+                .environment(accountManager)
         }
         .modelContainer(sharedModelContainer)
     }

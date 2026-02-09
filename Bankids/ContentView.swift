@@ -10,48 +10,59 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Transaction.date, order: .reverse) private var transactions: [Transaction]
+    @Environment(AccountManager.self) private var accountManager
+    @Query private var accounts: [Account]
 
     @State private var showingDeposit = false
     @State private var showingWithdraw = false
+    @State private var showingAccountList = false
+
+    private var selectedAccount: Account? {
+        accounts.first { $0.id == accountManager.selectedAccountID }
+    }
 
     private var balance: Int {
-        transactions.reduce(0) { result, transaction in
-            switch transaction.type {
-            case .deposit:
-                return result + transaction.amount
-            case .withdrawal:
-                return result - transaction.amount
-            }
-        }
+        selectedAccount?.balance ?? 0
     }
 
     private var recentTransactions: [Transaction] {
-        Array(transactions.prefix(5))
+        Array((selectedAccount?.sortedTransactions ?? []).prefix(5))
     }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
-                    // 残高カード
                     balanceCard
-
-                    // アクションボタン
                     actionButtons
-
-                    // 最近の取引
                     recentTransactionsSection
                 }
                 .padding()
             }
             .background(Color(.systemGroupedBackground))
-            .navigationTitle("Bankids")
+            .navigationTitle(selectedAccount?.name ?? "Bankids")
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        showingAccountList = true
+                    } label: {
+                        Image(systemName: selectedAccount?.iconName ?? "person.circle.fill")
+                            .font(.title3)
+                    }
+                }
+            }
             .navigationDestination(isPresented: $showingDeposit) {
-                DepositView()
+                if let account = selectedAccount {
+                    DepositView(account: account)
+                }
             }
             .navigationDestination(isPresented: $showingWithdraw) {
-                WithdrawView(balance: balance)
+                if let account = selectedAccount {
+                    WithdrawView(account: account, balance: balance)
+                }
+            }
+            .sheet(isPresented: $showingAccountList) {
+                AccountListView()
             }
         }
     }
@@ -112,11 +123,13 @@ struct ContentView: View {
                 Text("最近の取引")
                     .font(.headline)
                 Spacer()
-                NavigationLink {
-                    TransactionHistoryView()
-                } label: {
-                    Text("すべての明細を見る")
-                        .font(.subheadline)
+                if let account = selectedAccount {
+                    NavigationLink {
+                        TransactionHistoryView(account: account)
+                    } label: {
+                        Text("すべての明細を見る")
+                            .font(.subheadline)
+                    }
                 }
             }
 
@@ -168,5 +181,6 @@ struct TransactionRow: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: Transaction.self, inMemory: true)
+        .modelContainer(for: [Account.self, Transaction.self], inMemory: true)
+        .environment(AccountManager())
 }

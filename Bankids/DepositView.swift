@@ -12,6 +12,8 @@ struct DepositView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
+    let account: Account
+
     @State private var amountText = ""
     @State private var memo = ""
 
@@ -57,7 +59,8 @@ struct DepositView: View {
         let transaction = Transaction(
             type: .deposit,
             amount: amount,
-            memo: memo
+            memo: memo,
+            account: account
         )
         modelContext.insert(transaction)
         dismiss()
@@ -65,8 +68,11 @@ struct DepositView: View {
 }
 
 #Preview {
-    NavigationStack {
-        DepositView()
-            .modelContainer(for: Transaction.self, inMemory: true)
+    let container = try! ModelContainer(for: Account.self, Transaction.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+    let account = Account(name: "テスト")
+    container.mainContext.insert(account)
+    return NavigationStack {
+        DepositView(account: account)
+            .modelContainer(container)
     }
 }

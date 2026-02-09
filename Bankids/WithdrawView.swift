@@ -12,6 +12,7 @@ struct WithdrawView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
+    let account: Account
     let balance: Int
 
     @State private var amountText = ""
@@ -75,7 +76,8 @@ struct WithdrawView: View {
         let transaction = Transaction(
             type: .withdrawal,
             amount: amount,
-            memo: memo
+            memo: memo,
+            account: account
         )
         modelContext.insert(transaction)
         dismiss()
@@ -83,8 +85,11 @@ struct WithdrawView: View {
 }
 
 #Preview {
-    NavigationStack {
-        WithdrawView(balance: 10000)
-            .modelContainer(for: Transaction.self, inMemory: true)
+    let container = try! ModelContainer(for: Account.self, Transaction.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+    let account = Account(name: "テスト")
+    container.mainContext.insert(account)
+    return NavigationStack {
+        WithdrawView(account: account, balance: 10000)
+            .modelContainer(container)
     }
 }
