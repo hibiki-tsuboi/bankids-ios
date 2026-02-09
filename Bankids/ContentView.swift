@@ -40,14 +40,19 @@ struct ContentView: View {
                 .padding()
             }
             .background(Color("LightGray"))
-            .navigationTitle(selectedAccount?.name ?? "Bankids")
             .toolbar {
+                ToolbarItem(placement: .principal) { // Added this
+                    Text(selectedAccount?.name ?? "Bankids")
+                        .font(.headline) // Adjust font as needed
+                        .foregroundStyle(.white)
+                }
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
                         showingAccountList = true
                     } label: {
                         Image(systemName: selectedAccount?.iconName ?? "person.circle.fill")
                             .font(.title3)
+                            .foregroundStyle(.white)
                     }
                 }
             }
@@ -64,6 +69,10 @@ struct ContentView: View {
             .sheet(isPresented: $showingAccountList) {
                 AccountListView()
             }
+            .toolbarBackground(Color("PrimaryBlue"), for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarColorScheme(.dark, for: .navigationBar) // Added this
+
         }
     }
 
@@ -80,7 +89,7 @@ struct ContentView: View {
                 .foregroundStyle(.white)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 32)
+        .padding(.vertical, 24)
         .background(Color("PrimaryBlue"))
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 5)
