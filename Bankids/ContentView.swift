@@ -81,7 +81,7 @@ struct ContentView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 32)
-        .background(LinearGradient(gradient: Gradient(colors: [Color("PrimaryBlue"), Color("AccentPurple")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+        .background(Color("PrimaryBlue"))
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 5)
     }
