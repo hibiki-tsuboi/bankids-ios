@@ -146,22 +146,25 @@ struct AddAccountView: View {
                     TextField("お子さまの名前", text: $name)
                 }
 
+                /*
                 Section("アイコン") {
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 6), spacing: 12) {
-                        ForEach(iconOptions, id: \.self) { icon in
+                        ForEach(Array(iconOptions.enumerated()), id: \.offset) { index, iconName in
                             Button {
-                                selectedIcon = icon
+                                selectedIcon = iconName
                             } label: {
-                                Image(systemName: icon)
+                                Image(systemName: iconName)
                                     .font(.title)
                                     .frame(width: 44, height: 44)
-                                    .background(selectedIcon == icon ? Color("PrimaryBlue").opacity(0.2) : Color.clear)
+                                    .background(selectedIcon == iconName ? Color("PrimaryBlue").opacity(0.2) : Color.clear)
+                                    .clipShape(Circle())
+                                    .foregroundStyle(selectedIcon == iconName ? Color("PrimaryBlue") : Color.secondary)
                             }
-                            .foregroundStyle(selectedIcon == icon ? Color("PrimaryBlue") : Color.secondary)
                         }
                     }
                     .padding(.vertical, 4)
                 }
+                */
             }
             .navigationTitle("アカウント追加")
             .navigationBarTitleDisplayMode(.inline)

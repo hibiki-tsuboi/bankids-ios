@@ -132,7 +132,7 @@ struct ContentView: View {
                     } label: {
                         Text("すべての明細を見る")
                             .font(.subheadline)
-                            .foregroundStyle(Color("AccentYellow"))
+                            .foregroundStyle(Color("PrimaryBlue"))
                     }
                 }
             }
