@@ -106,7 +106,7 @@ struct AccountSetupView: View {
         modelContext.insert(account)
 
         let wallet1 = Wallet(name: "親口座", iconName: "building.columns", isDefault: true, account: account)
-        let wallet2 = Wallet(name: "子口座", iconName: "wallet.bifold", isDefault: false, account: account)
+        let wallet2 = Wallet(name: "子供口座", iconName: "wallet.bifold", isDefault: false, account: account)
         modelContext.insert(wallet1)
         modelContext.insert(wallet2)
 
