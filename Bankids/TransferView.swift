@@ -163,7 +163,7 @@ struct TransferView: View {
     let account = Account(name: "テスト")
     container.mainContext.insert(account)
     let wallet1 = Wallet(name: "親口座", iconName: "building.columns", isDefault: true, account: account)
-    let wallet2 = Wallet(name: "財布口座", iconName: "wallet.bifold", isDefault: false, account: account)
+    let wallet2 = Wallet(name: "子口座", iconName: "wallet.bifold", isDefault: false, account: account)
     container.mainContext.insert(wallet1)
     container.mainContext.insert(wallet2)
     return NavigationStack {
