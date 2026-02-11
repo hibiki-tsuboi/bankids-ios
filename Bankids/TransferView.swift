@@ -46,7 +46,7 @@ struct TransferView: View {
             Section("振替元") {
                 Picker("振替元口座", selection: $fromWalletID) {
                     Text("選択してください").tag(nil as UUID?)
-                    ForEach(wallets) { wallet in
+                    ForEach(wallets.filter { $0.id != toWalletID }) { wallet in
                         HStack {
                             Image(systemName: wallet.iconName)
                             Text("\(wallet.name)（¥\(wallet.balance.formatted())）")
@@ -59,7 +59,7 @@ struct TransferView: View {
             Section("振替先") {
                 Picker("振替先口座", selection: $toWalletID) {
                     Text("選択してください").tag(nil as UUID?)
-                    ForEach(wallets) { wallet in
+                    ForEach(wallets.filter { $0.id != fromWalletID }) { wallet in
                         HStack {
                             Image(systemName: wallet.iconName)
                             Text("\(wallet.name)（¥\(wallet.balance.formatted())）")
