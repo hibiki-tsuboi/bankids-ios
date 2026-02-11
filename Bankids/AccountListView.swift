@@ -84,7 +84,7 @@ struct AccountListView: View {
             .listStyle(.plain)
             .background(Color("BackgroundGray"))
             .listRowSeparator(.hidden)
-            .navigationTitle("子供")
+            .navigationTitle("子供を選択")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
