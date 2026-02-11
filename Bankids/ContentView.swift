@@ -79,7 +79,7 @@ struct ContentView: View {
             }
             .navigationDestination(isPresented: $showingTransfer) {
                 if let account = selectedAccount {
-                    TransferView(account: account)
+                    TransferView(account: account, currentWalletID: selectedWallet?.id)
                 }
             }
             .sheet(isPresented: $showingAccountList) {

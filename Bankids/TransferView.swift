@@ -13,6 +13,7 @@ struct TransferView: View {
     @Environment(\.dismiss) private var dismiss
 
     let account: Account
+    var currentWalletID: UUID?
 
     @State private var fromWalletID: UUID?
     @State private var toWalletID: UUID?
@@ -109,8 +110,13 @@ struct TransferView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             if wallets.count >= 2 {
-                fromWalletID = wallets[0].id
-                toWalletID = wallets[1].id
+                if let current = currentWalletID, wallets.contains(where: { $0.id == current }) {
+                    fromWalletID = current
+                    toWalletID = wallets.first { $0.id != current }?.id
+                } else {
+                    fromWalletID = wallets[0].id
+                    toWalletID = wallets[1].id
+                }
             }
         }
         .alert("エラー", isPresented: $showingError) {
