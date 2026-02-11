@@ -9,10 +9,10 @@ import SwiftUI
 import SwiftData
 
 struct TransactionHistoryView: View {
-    let account: Account
+    let wallet: Wallet
 
     private var transactions: [Transaction] {
-        account.sortedTransactions
+        wallet.sortedTransactions
     }
 
     var body: some View {
@@ -32,27 +32,28 @@ struct TransactionHistoryView: View {
         }
         .listStyle(.plain)
         .background(Color("LightGray"))
-                .listRowSeparator(.hidden)
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        Text("取引明細")
-                            .font(.headline)
-                            .foregroundStyle(.white)
-                    }
-                }
-                .toolbarBackground(Color("PrimaryBlue"), for: .navigationBar)
-                .toolbarBackground(.visible, for: .navigationBar)
-        
-                .navigationBarTitleDisplayMode(.inline)
+        .listRowSeparator(.hidden)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("取引明細")
+                    .font(.headline)
+                    .foregroundStyle(.white)
             }
         }
+        .toolbarBackground(Color("PrimaryBlue"), for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
 
 #Preview {
-    let container = try! ModelContainer(for: Account.self, Transaction.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+    let container = try! ModelContainer(for: Account.self, Wallet.self, Transaction.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
     let account = Account(name: "テスト")
     container.mainContext.insert(account)
+    let wallet = Wallet(name: "親口座", iconName: "building.columns", isDefault: true, account: account)
+    container.mainContext.insert(wallet)
     return NavigationStack {
-        TransactionHistoryView(account: account)
+        TransactionHistoryView(wallet: wallet)
             .modelContainer(container)
     }
 }

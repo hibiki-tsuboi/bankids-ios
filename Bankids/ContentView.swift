@@ -15,24 +15,35 @@ struct ContentView: View {
 
     @State private var showingDeposit = false
     @State private var showingWithdraw = false
+    @State private var showingTransfer = false
     @State private var showingAccountList = false
 
     private var selectedAccount: Account? {
         accounts.first { $0.id == accountManager.selectedAccountID }
     }
 
+    private var selectedWallet: Wallet? {
+        guard let account = selectedAccount else { return nil }
+        if let walletID = accountManager.selectedWalletID,
+           let wallet = account.sortedWallets.first(where: { $0.id == walletID }) {
+            return wallet
+        }
+        return account.sortedWallets.first
+    }
+
     private var balance: Int {
-        selectedAccount?.balance ?? 0
+        selectedWallet?.balance ?? 0
     }
 
     private var recentTransactions: [Transaction] {
-        Array((selectedAccount?.sortedTransactions ?? []).prefix(5))
+        Array((selectedWallet?.sortedTransactions ?? []).prefix(5))
     }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
+                    walletPicker
                     balanceCard
                     actionButtons
                     recentTransactionsSection
@@ -41,9 +52,9 @@ struct ContentView: View {
             }
             .background(Color("LightGray"))
             .toolbar {
-                ToolbarItem(placement: .principal) { // Added this
+                ToolbarItem(placement: .principal) {
                     Text(selectedAccount?.name ?? "Bankids")
-                        .font(.headline) // Adjust font as needed
+                        .font(.headline)
                         .foregroundStyle(.white)
                 }
                 ToolbarItem(placement: .topBarLeading) {
@@ -57,13 +68,18 @@ struct ContentView: View {
                 }
             }
             .navigationDestination(isPresented: $showingDeposit) {
-                if let account = selectedAccount {
-                    DepositView(account: account)
+                if let wallet = selectedWallet {
+                    DepositView(wallet: wallet)
                 }
             }
             .navigationDestination(isPresented: $showingWithdraw) {
+                if let wallet = selectedWallet {
+                    WithdrawView(wallet: wallet, balance: balance)
+                }
+            }
+            .navigationDestination(isPresented: $showingTransfer) {
                 if let account = selectedAccount {
-                    WithdrawView(account: account, balance: balance)
+                    TransferView(account: account)
                 }
             }
             .sheet(isPresented: $showingAccountList) {
@@ -71,9 +87,44 @@ struct ContentView: View {
             }
             .toolbarBackground(Color("PrimaryBlue"), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
 
-            .navigationBarTitleDisplayMode(.inline) // Added this
+    // MARK: - ウォレットピッカー
 
+    private var walletPicker: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                if let account = selectedAccount {
+                    ForEach(account.sortedWallets) { wallet in
+                        Button {
+                            accountManager.selectedWalletID = wallet.id
+                        } label: {
+                            HStack(spacing: 6) {
+                                Image(systemName: wallet.iconName)
+                                    .font(.caption)
+                                Text(wallet.name)
+                                    .font(.subheadline.bold())
+                            }
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 8)
+                            .background(
+                                selectedWallet?.id == wallet.id
+                                    ? Color("PrimaryBlue")
+                                    : Color.white
+                            )
+                            .foregroundStyle(
+                                selectedWallet?.id == wallet.id
+                                    ? .white
+                                    : Color("PrimaryBlue")
+                            )
+                            .clipShape(Capsule())
+                            .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -81,7 +132,7 @@ struct ContentView: View {
 
     private var balanceCard: some View {
         VStack(spacing: 8) {
-            Text("残高")
+            Text(selectedWallet?.name ?? "残高")
                 .font(.subheadline)
                 .foregroundStyle(.white.opacity(0.8))
 
@@ -99,17 +150,17 @@ struct ContentView: View {
     // MARK: - アクションボタン
 
     private var actionButtons: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: 12) {
             Button {
                 showingDeposit = true
             } label: {
                 Label("入金", systemImage: "arrow.down.circle.fill")
                     .font(.headline)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 18) // Increased padding
+                    .padding(.vertical, 18)
                     .background(Color("PrimaryGreen"))
                     .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 15)) // Slightly less rounded than card
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
                     .shadow(color: Color("PrimaryGreen").opacity(0.4), radius: 8, x: 0, y: 4)
             }
 
@@ -119,12 +170,26 @@ struct ContentView: View {
                 Label("出金", systemImage: "arrow.up.circle.fill")
                     .font(.headline)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 18) // Increased padding
+                    .padding(.vertical, 18)
                     .background(Color("AccentRed"))
                     .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 15)) // Slightly less rounded than card
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
                     .shadow(color: Color("AccentRed").opacity(0.4), radius: 8, x: 0, y: 4)
             }
+
+            Button {
+                showingTransfer = true
+            } label: {
+                Label("振替", systemImage: "arrow.left.arrow.right.circle.fill")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 18)
+                    .background(Color("AccentYellow"))
+                    .foregroundStyle(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .shadow(color: Color("AccentYellow").opacity(0.4), radius: 8, x: 0, y: 4)
+            }
+            .disabled((selectedAccount?.wallets.count ?? 0) < 2)
         }
     }
 
@@ -136,9 +201,9 @@ struct ContentView: View {
                 Text("最近の取引")
                     .font(.headline)
                 Spacer()
-                if let account = selectedAccount {
+                if let wallet = selectedWallet {
                     NavigationLink {
-                        TransactionHistoryView(account: account)
+                        TransactionHistoryView(wallet: wallet)
                     } label: {
                         Text("すべての明細を見る")
                             .font(.subheadline)
@@ -157,10 +222,11 @@ struct ContentView: View {
                     TransactionRow(transaction: transaction)
                 }
             }
-                    }
-                    .padding()
-                    .background(Color("LightGray"))
-                    .clipShape(RoundedRectangle(cornerRadius: 16))    }
+        }
+        .padding()
+        .background(Color("LightGray"))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+    }
 }
 
 // MARK: - 取引行
@@ -168,14 +234,53 @@ struct ContentView: View {
 struct TransactionRow: View {
     let transaction: Transaction
 
+    private var icon: String {
+        switch transaction.type {
+        case .deposit:
+            return "arrow.down.circle.fill"
+        case .withdrawal:
+            return "arrow.up.circle.fill"
+        case .transferIn:
+            return "arrow.right.circle.fill"
+        case .transferOut:
+            return "arrow.left.circle.fill"
+        }
+    }
+
+    private var color: Color {
+        switch transaction.type {
+        case .deposit, .transferIn:
+            return Color("PrimaryGreen")
+        case .withdrawal, .transferOut:
+            return Color("AccentRed")
+        }
+    }
+
+    private var label: String {
+        if !transaction.memo.isEmpty { return transaction.memo }
+        switch transaction.type {
+        case .deposit: return "入金"
+        case .withdrawal: return "出金"
+        case .transferIn: return "振替入金"
+        case .transferOut: return "振替出金"
+        }
+    }
+
+    private var sign: String {
+        switch transaction.type {
+        case .deposit, .transferIn: return "+"
+        case .withdrawal, .transferOut: return "-"
+        }
+    }
+
     var body: some View {
         HStack {
-            Image(systemName: transaction.type == .deposit ? "arrow.down.circle.fill" : "arrow.up.circle.fill")
-                .foregroundStyle(transaction.type == .deposit ? Color("PrimaryGreen") : Color("AccentRed"))
+            Image(systemName: icon)
+                .foregroundStyle(color)
                 .font(.title3)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(transaction.memo.isEmpty ? (transaction.type == .deposit ? "入金" : "出金") : transaction.memo)
+                Text(label)
                     .font(.body)
                 Text(transaction.date.formatted(Date.FormatStyle(date: .long, time: .omitted).locale(Locale(identifier: "ja_JP"))))
                     .font(.caption)
@@ -184,9 +289,9 @@ struct TransactionRow: View {
 
             Spacer()
 
-            Text("\(transaction.type == .deposit ? "+" : "-")¥\(transaction.amount.formatted())")
+            Text("\(sign)¥\(transaction.amount.formatted())")
                 .font(.body.monospacedDigit().bold())
-                .foregroundStyle(transaction.type == .deposit ? Color("PrimaryGreen") : Color("AccentRed"))
+                .foregroundStyle(color)
         }
         .padding(.vertical, 4)
     }
@@ -194,6 +299,6 @@ struct TransactionRow: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: [Account.self, Transaction.self], inMemory: true)
+        .modelContainer(for: [Account.self, Wallet.self, Transaction.self], inMemory: true)
         .environment(AccountManager())
 }

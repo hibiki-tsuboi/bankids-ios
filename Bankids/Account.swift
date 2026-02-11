@@ -15,8 +15,8 @@ final class Account {
     var iconName: String
     var createdAt: Date
 
-    @Relationship(deleteRule: .cascade, inverse: \Transaction.account)
-    var transactions: [Transaction] = []
+    @Relationship(deleteRule: .cascade, inverse: \Wallet.account)
+    var wallets: [Wallet] = []
 
     init(name: String, iconName: String = "person.circle.fill") {
         self.id = UUID()
@@ -26,17 +26,14 @@ final class Account {
     }
 
     var balance: Int {
-        transactions.reduce(0) { result, transaction in
-            switch transaction.type {
-            case .deposit:
-                return result + transaction.amount
-            case .withdrawal:
-                return result - transaction.amount
-            }
-        }
+        wallets.reduce(0) { $0 + $1.balance }
     }
 
     var sortedTransactions: [Transaction] {
-        transactions.sorted { $0.date > $1.date }
+        wallets.flatMap(\.transactions).sorted { $0.date > $1.date }
+    }
+
+    var sortedWallets: [Wallet] {
+        wallets.sorted { $0.createdAt < $1.createdAt }
     }
 }

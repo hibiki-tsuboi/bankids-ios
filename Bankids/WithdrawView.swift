@@ -12,7 +12,7 @@ struct WithdrawView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
-    let account: Account
+    let wallet: Wallet
     let balance: Int
 
     @State private var amountText = ""
@@ -55,7 +55,6 @@ struct WithdrawView: View {
                 .disabled(amount <= 0)
             }
         }
-
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("出金")
@@ -65,7 +64,6 @@ struct WithdrawView: View {
         }
         .toolbarBackground(Color("PrimaryBlue"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-
         .navigationBarTitleDisplayMode(.inline)
         .alert("残高不足", isPresented: $showingError) {
             Button("OK", role: .cancel) {}
@@ -87,7 +85,7 @@ struct WithdrawView: View {
             type: .withdrawal,
             amount: amount,
             memo: memo,
-            account: account
+            wallet: wallet
         )
         modelContext.insert(transaction)
         dismiss()
@@ -95,11 +93,13 @@ struct WithdrawView: View {
 }
 
 #Preview {
-    let container = try! ModelContainer(for: Account.self, Transaction.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+    let container = try! ModelContainer(for: Account.self, Wallet.self, Transaction.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
     let account = Account(name: "テスト")
     container.mainContext.insert(account)
+    let wallet = Wallet(name: "親口座", iconName: "building.columns", isDefault: true, account: account)
+    container.mainContext.insert(wallet)
     return NavigationStack {
-        WithdrawView(account: account, balance: 10000)
+        WithdrawView(wallet: wallet, balance: 10000)
             .modelContainer(container)
     }
 }

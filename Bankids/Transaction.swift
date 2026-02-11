@@ -11,6 +11,8 @@ import SwiftData
 enum TransactionType: String, Codable {
     case deposit
     case withdrawal
+    case transferIn
+    case transferOut
 }
 
 @Model
@@ -20,14 +22,16 @@ final class Transaction {
     var amount: Int
     var memo: String
     var date: Date
-    var account: Account?
+    var wallet: Wallet?
+    var transferPairID: UUID?
 
-    init(type: TransactionType, amount: Int, memo: String, date: Date = .now, account: Account? = nil) {
+    init(type: TransactionType, amount: Int, memo: String, date: Date = .now, wallet: Wallet? = nil, transferPairID: UUID? = nil) {
         self.id = UUID()
         self.type = type
         self.amount = amount
         self.memo = memo
         self.date = date
-        self.account = account
+        self.wallet = wallet
+        self.transferPairID = transferPairID
     }
 }

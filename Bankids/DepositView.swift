@@ -12,7 +12,7 @@ struct DepositView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
-    let account: Account
+    let wallet: Wallet
 
     @State private var amountText = ""
     @State private var memo = ""
@@ -46,21 +46,20 @@ struct DepositView: View {
                 }
                 .disabled(amount <= 0)
             }
-                }
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        Text("入金")
-                            .font(.headline)
-                            .foregroundStyle(.white)
-                    }
-                }
-                .toolbarBackground(Color("PrimaryBlue"), for: .navigationBar)
-                .toolbarBackground(.visible, for: .navigationBar)
-    
-                .navigationBarTitleDisplayMode(.inline)
+        }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("入金")
+                    .font(.headline)
+                    .foregroundStyle(.white)
             }
-        
-            private var amount: Int {
+        }
+        .toolbarBackground(Color("PrimaryBlue"), for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var amount: Int {
         Int(amountText) ?? 0
     }
 
@@ -69,7 +68,7 @@ struct DepositView: View {
             type: .deposit,
             amount: amount,
             memo: memo,
-            account: account
+            wallet: wallet
         )
         modelContext.insert(transaction)
         dismiss()
@@ -77,11 +76,13 @@ struct DepositView: View {
 }
 
 #Preview {
-    let container = try! ModelContainer(for: Account.self, Transaction.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+    let container = try! ModelContainer(for: Account.self, Wallet.self, Transaction.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
     let account = Account(name: "テスト")
     container.mainContext.insert(account)
+    let wallet = Wallet(name: "親口座", iconName: "building.columns", isDefault: true, account: account)
+    container.mainContext.insert(wallet)
     return NavigationStack {
-        DepositView(account: account)
+        DepositView(wallet: wallet)
             .modelContainer(container)
     }
 }

@@ -29,6 +29,18 @@ struct RootView: View {
             if !accounts.isEmpty && accountManager.selectedAccountID == nil {
                 accountManager.selectedAccountID = accounts.first?.id
             }
+            autoSelectWallet()
+        }
+        .onChange(of: accountManager.selectedAccountID) {
+            autoSelectWallet()
+        }
+    }
+
+    private func autoSelectWallet() {
+        guard let account = accounts.first(where: { $0.id == accountManager.selectedAccountID }) else { return }
+        let wallets = account.sortedWallets
+        if accountManager.selectedWalletID == nil || !wallets.contains(where: { $0.id == accountManager.selectedWalletID }) {
+            accountManager.selectedWalletID = wallets.first?.id
         }
     }
 }
@@ -92,6 +104,13 @@ struct AccountSetupView: View {
     private func createAccount() {
         let account = Account(name: name.trimmingCharacters(in: .whitespaces))
         modelContext.insert(account)
+
+        let wallet1 = Wallet(name: "親口座", iconName: "building.columns", isDefault: true, account: account)
+        let wallet2 = Wallet(name: "財布口座", iconName: "wallet.bifold", isDefault: false, account: account)
+        modelContext.insert(wallet1)
+        modelContext.insert(wallet2)
+
         accountManager.selectedAccountID = account.id
+        accountManager.selectedWalletID = wallet1.id
     }
 }

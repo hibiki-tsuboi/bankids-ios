@@ -81,7 +81,7 @@ struct AccountListView: View {
                     .shadow(color: Color("PrimaryGreen").opacity(0.3), radius: 5, x: 0, y: 2)
                 }
             }
-            .listStyle(.plain) // Use plain style for better control over backgrounds
+            .listStyle(.plain)
             .background(Color("LightGray"))
             .listRowSeparator(.hidden)
             .navigationTitle("アカウント")
@@ -145,26 +145,6 @@ struct AddAccountView: View {
                 Section("名前") {
                     TextField("お子さまの名前", text: $name)
                 }
-
-                /*
-                Section("アイコン") {
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 6), spacing: 12) {
-                        ForEach(Array(iconOptions.enumerated()), id: \.offset) { index, iconName in
-                            Button {
-                                selectedIcon = iconName
-                            } label: {
-                                Image(systemName: iconName)
-                                    .font(.title)
-                                    .frame(width: 44, height: 44)
-                                    .background(selectedIcon == iconName ? Color("PrimaryBlue").opacity(0.2) : Color.clear)
-                                    .clipShape(Circle())
-                                    .foregroundStyle(selectedIcon == iconName ? Color("PrimaryBlue") : Color.secondary)
-                            }
-                        }
-                    }
-                    .padding(.vertical, 4)
-                }
-                */
             }
             .navigationTitle("アカウント追加")
             .navigationBarTitleDisplayMode(.inline)
@@ -178,7 +158,14 @@ struct AddAccountView: View {
                     Button("追加") {
                         let account = Account(name: name.trimmingCharacters(in: .whitespaces), iconName: selectedIcon)
                         modelContext.insert(account)
+
+                        let wallet1 = Wallet(name: "親口座", iconName: "building.columns", isDefault: true, account: account)
+                        let wallet2 = Wallet(name: "財布口座", iconName: "wallet.bifold", isDefault: false, account: account)
+                        modelContext.insert(wallet1)
+                        modelContext.insert(wallet2)
+
                         accountManager.selectedAccountID = account.id
+                        accountManager.selectedWalletID = wallet1.id
                         dismiss()
                     }
                     .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)

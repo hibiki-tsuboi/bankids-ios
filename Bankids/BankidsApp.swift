@@ -15,6 +15,7 @@ struct BankidsApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Account.self,
+            Wallet.self,
             Transaction.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
