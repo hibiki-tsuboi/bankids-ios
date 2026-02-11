@@ -233,6 +233,8 @@ struct ContentView: View {
 
 struct TransactionRow: View {
     let transaction: Transaction
+    @State private var showingEditMemo = false
+    @State private var editingMemo = ""
 
     private var icon: String {
         switch transaction.type {
@@ -296,6 +298,36 @@ struct TransactionRow: View {
                 .foregroundStyle(color)
         }
         .padding(.vertical, 4)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            editingMemo = transaction.memo
+            showingEditMemo = true
+        }
+        .sheet(isPresented: $showingEditMemo) {
+            NavigationStack {
+                Form {
+                    Section("メモ") {
+                        TextField("メモを入力", text: $editingMemo)
+                    }
+                }
+                .navigationTitle("メモを編集")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("キャンセル") {
+                            showingEditMemo = false
+                        }
+                    }
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("保存") {
+                            transaction.memo = editingMemo
+                            showingEditMemo = false
+                        }
+                    }
+                }
+            }
+            .presentationDetents([.medium])
+        }
     }
 }
 
