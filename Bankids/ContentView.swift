@@ -50,7 +50,7 @@ struct ContentView: View {
                 }
                 .padding()
             }
-            .background(Color("LightGray"))
+            .background(Color("BackgroundGray"))
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(selectedAccount?.name ?? "Bankids")
@@ -224,7 +224,7 @@ struct ContentView: View {
             }
         }
         .padding()
-        .background(Color("LightGray"))
+        .background(Color("BackgroundGray"))
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }

@@ -82,7 +82,7 @@ struct AccountListView: View {
                 }
             }
             .listStyle(.plain)
-            .background(Color("LightGray"))
+            .background(Color("BackgroundGray"))
             .listRowSeparator(.hidden)
             .navigationTitle("アカウント")
             .navigationBarTitleDisplayMode(.inline)

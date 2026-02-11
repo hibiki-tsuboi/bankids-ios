@@ -31,7 +31,7 @@ struct TransactionHistoryView: View {
             }
         }
         .listStyle(.plain)
-        .background(Color("LightGray"))
+        .background(Color("BackgroundGray"))
         .listRowSeparator(.hidden)
         .toolbar {
             ToolbarItem(placement: .principal) {
