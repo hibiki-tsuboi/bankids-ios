@@ -62,7 +62,7 @@ struct AccountSetupView: View {
                         .frame(width: 120, height: 120)
                         .shadow(color: Color.black.opacity(0.2), radius: 15, x: 0, y: 10)
 
-                    Image(systemName: "banknote.fill")
+                    Image(systemName: "building.columns.fill")
                         .font(.system(size: 60))
                         .foregroundStyle(.white)
                 }
