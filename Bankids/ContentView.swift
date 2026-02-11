@@ -249,10 +249,12 @@ struct TransactionRow: View {
 
     private var color: Color {
         switch transaction.type {
-        case .deposit, .transferIn:
+        case .deposit:
             return Color("PrimaryGreen")
-        case .withdrawal, .transferOut:
+        case .withdrawal:
             return Color("AccentRed")
+        case .transferIn, .transferOut:
+            return Color("AccentYellow")
         }
     }
 
