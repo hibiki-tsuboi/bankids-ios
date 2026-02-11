@@ -21,7 +21,7 @@ struct AccountListView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section("アカウント") {
+                Section("子供") {
                     ForEach(accounts) { account in
                         Button {
                             accountManager.selectedAccountID = account.id
@@ -73,7 +73,7 @@ struct AccountListView: View {
                     Button {
                         showingAddAccount = true
                     } label: {
-                        Label("アカウントを追加", systemImage: "plus.circle.fill")
+                        Label("子供を追加", systemImage: "plus.circle.fill")
                     }
                     .foregroundStyle(Color("PrimaryGreen"))
                     .listRowSeparator(.hidden)
@@ -84,7 +84,7 @@ struct AccountListView: View {
             .listStyle(.plain)
             .background(Color("BackgroundGray"))
             .listRowSeparator(.hidden)
-            .navigationTitle("アカウント")
+            .navigationTitle("子供")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -96,7 +96,7 @@ struct AccountListView: View {
             .sheet(isPresented: $showingAddAccount) {
                 AddAccountView()
             }
-            .alert("アカウントを削除", isPresented: $showingDeleteConfirmation) {
+            .alert("子供を削除", isPresented: $showingDeleteConfirmation) {
                 Button("削除", role: .destructive) {
                     if let account = accountToDelete {
                         deleteAccount(account)
@@ -105,7 +105,7 @@ struct AccountListView: View {
                 Button("キャンセル", role: .cancel) {}
             } message: {
                 if let account = accountToDelete {
-                    Text("\(account.name)のアカウントとすべての取引履歴が削除されます。この操作は取り消せません。")
+                    Text("\(account.name)のデータとすべての取引履歴が削除されます。この操作は取り消せません。")
                 }
             }
         }
@@ -146,7 +146,7 @@ struct AddAccountView: View {
                     TextField("お子さまの名前", text: $name)
                 }
             }
-            .navigationTitle("アカウント追加")
+            .navigationTitle("子供を追加")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
