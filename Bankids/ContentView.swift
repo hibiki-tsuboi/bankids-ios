@@ -53,7 +53,7 @@ struct ContentView: View {
             .background(Color("BackgroundGray"))
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text(selectedAccount?.name ?? "Bankids")
+                    Text(selectedAccount?.name ?? "FamiBank")
                         .font(.headline)
                         .foregroundStyle(.white)
                 }

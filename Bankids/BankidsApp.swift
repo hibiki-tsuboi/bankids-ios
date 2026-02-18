@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 @main
-struct BankidsApp: App {
+struct FamiBankApp: App {
     @State private var accountManager = AccountManager()
 
     var sharedModelContainer: ModelContainer = {

@@ -68,7 +68,7 @@ struct AccountSetupView: View {
                 }
 
                 VStack(spacing: 8) {
-                    Text("Bankidsへようこそ")
+                    Text("FamiBankへようこそ")
                         .font(.title.bold())
                     Text("お子さまの名前を入力してください")
                         .font(.subheadline)
