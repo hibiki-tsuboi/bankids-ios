@@ -11,14 +11,21 @@ import SwiftData
 struct RootView: View {
     @Environment(AccountManager.self) private var accountManager
     @Query private var accounts: [Account]
+    @State private var showingBackup = false
 
     var body: some View {
-        Group {
-            if accounts.isEmpty {
-                AccountSetupView()
-            } else {
-                ContentView()
+        ZStack {
+            Group {
+                if accounts.isEmpty {
+                    AccountSetupView(onOpenBackup: { showingBackup = true })
+                } else {
+                    ContentView(onOpenBackup: { showingBackup = true })
+                }
             }
+            .id(accountManager.dataRevision)
+        }
+        .sheet(isPresented: $showingBackup) {
+            BackupView()
         }
         .onChange(of: accounts.count) {
             if !accounts.isEmpty && accountManager.selectedAccountID == nil {
@@ -46,6 +53,7 @@ struct RootView: View {
 }
 
 struct AccountSetupView: View {
+    var onOpenBackup: () -> Void
     @Environment(\.modelContext) private var modelContext
     @Environment(AccountManager.self) private var accountManager
 
@@ -76,6 +84,7 @@ struct AccountSetupView: View {
                 }
 
                 TextField("名前", text: $name)
+                    .accessibilityIdentifier("setup.name")
                     .textFieldStyle(.roundedBorder)
                     .padding(.horizontal, 40)
 
@@ -93,6 +102,11 @@ struct AccountSetupView: View {
                 }
                 .padding(.horizontal, 40)
                 .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
+
+                Button(action: onOpenBackup) {
+                    Label("バックアップから復元", systemImage: "square.and.arrow.down")
+                }
+                .tint(Color("PrimaryBlue"))
 
                 Spacer()
                 Spacer()

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-enum TransactionType: String, Codable {
+nonisolated enum TransactionType: String, Codable, Sendable {
     case deposit
     case withdrawal
     case transferIn

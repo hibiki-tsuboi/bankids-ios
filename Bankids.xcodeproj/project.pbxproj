@@ -6,11 +6,40 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+        BACC00000000000000000011 /* UI test application proxy */ = {
+            isa = PBXContainerItemProxy;
+            containerPortal = B6B8C9582F39C9EF000D14FB /* Project object */;
+            proxyType = 1;
+            remoteGlobalIDString = B6B8C95F2F39C9EF000D14FB;
+            remoteInfo = Bankids;
+        };
+        BACC00000000000000000001 /* PBXContainerItemProxy */ = {
+            isa = PBXContainerItemProxy;
+            containerPortal = B6B8C9582F39C9EF000D14FB /* Project object */;
+            proxyType = 1;
+            remoteGlobalIDString = B6B8C95F2F39C9EF000D14FB;
+            remoteInfo = Bankids;
+        };
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+        BACC00000000000000000012 /* BankidsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BankidsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+        BACC00000000000000000002 /* BankidsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BankidsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6B8C9602F39C9EF000D14FB /* Bankids.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bankids.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+        BACC00000000000000000013 /* BankidsUITests */ = {
+            isa = PBXFileSystemSynchronizedRootGroup;
+            path = BankidsUITests;
+            sourceTree = "<group>";
+        };
+        BACC00000000000000000003 /* BankidsTests */ = {
+            isa = PBXFileSystemSynchronizedRootGroup;
+            path = BankidsTests;
+            sourceTree = "<group>";
+        };
 		B6B8C9622F39C9EF000D14FB /* Bankids */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Bankids;
@@ -19,6 +48,18 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+        BACC00000000000000000014 /* UI test frameworks */ = {
+            isa = PBXFrameworksBuildPhase;
+            buildActionMask = 2147483647;
+            files = ();
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        BACC00000000000000000004 /* Frameworks */ = {
+            isa = PBXFrameworksBuildPhase;
+            buildActionMask = 2147483647;
+            files = ();
+            runOnlyForDeploymentPostprocessing = 0;
+        };
 		B6B8C95D2F39C9EF000D14FB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,6 +74,8 @@
 			isa = PBXGroup;
 			children = (
 				B6B8C9622F39C9EF000D14FB /* Bankids */,
+                BACC00000000000000000003 /* BankidsTests */,
+                BACC00000000000000000013 /* BankidsUITests */,
 				B6B8C9612F39C9EF000D14FB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +84,8 @@
 			isa = PBXGroup;
 			children = (
 				B6B8C9602F39C9EF000D14FB /* Bankids.app */,
+                BACC00000000000000000002 /* BankidsTests.xctest */,
+                BACC00000000000000000012 /* BankidsUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +93,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+        BACC00000000000000000015 /* BankidsUITests */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = BACC0000000000000000001A /* Build configuration list for BankidsUITests */;
+            buildPhases = (
+                BACC00000000000000000016 /* UI test sources */,
+                BACC00000000000000000014 /* UI test frameworks */,
+                BACC00000000000000000017 /* UI test resources */,
+            );
+            buildRules = ();
+            dependencies = (BACC00000000000000000018 /* UI test dependency */,);
+            fileSystemSynchronizedGroups = (BACC00000000000000000013 /* BankidsUITests */,);
+            name = BankidsUITests;
+            packageProductDependencies = ();
+            productName = BankidsUITests;
+            productReference = BACC00000000000000000012 /* BankidsUITests.xctest */;
+            productType = "com.apple.product-type.bundle.ui-testing";
+        };
+        BACC00000000000000000005 /* BankidsTests */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = BACC0000000000000000000A /* Build configuration list for BankidsTests */;
+            buildPhases = (
+                BACC00000000000000000006 /* Sources */,
+                BACC00000000000000000004 /* Frameworks */,
+                BACC00000000000000000007 /* Resources */,
+            );
+            buildRules = ();
+            dependencies = (BACC00000000000000000008 /* PBXTargetDependency */,);
+            fileSystemSynchronizedGroups = (BACC00000000000000000003 /* BankidsTests */,);
+            name = BankidsTests;
+            packageProductDependencies = ();
+            productName = BankidsTests;
+            productReference = BACC00000000000000000002 /* BankidsTests.xctest */;
+            productType = "com.apple.product-type.bundle.unit-test";
+        };
 		B6B8C95F2F39C9EF000D14FB /* Bankids */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B6B8C96D2F39C9F0000D14FB /* Build configuration list for PBXNativeTarget "Bankids" */;
@@ -99,12 +178,26 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+                BACC00000000000000000015 /* BankidsUITests */,
+                BACC00000000000000000005 /* BankidsTests */,
 				B6B8C95F2F39C9EF000D14FB /* Bankids */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+        BACC00000000000000000017 /* UI test resources */ = {
+            isa = PBXResourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = ();
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        BACC00000000000000000007 /* Resources */ = {
+            isa = PBXResourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = ();
+            runOnlyForDeploymentPostprocessing = 0;
+        };
 		B6B8C95E2F39C9EF000D14FB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +208,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+        BACC00000000000000000016 /* UI test sources */ = {
+            isa = PBXSourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = ();
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        BACC00000000000000000006 /* Sources */ = {
+            isa = PBXSourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = ();
+            runOnlyForDeploymentPostprocessing = 0;
+        };
 		B6B8C95C2F39C9EF000D14FB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +229,78 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+        BACC00000000000000000018 /* UI test dependency */ = {
+            isa = PBXTargetDependency;
+            target = B6B8C95F2F39C9EF000D14FB /* Bankids */;
+            targetProxy = BACC00000000000000000011 /* UI test application proxy */;
+        };
+        BACC00000000000000000008 /* PBXTargetDependency */ = {
+            isa = PBXTargetDependency;
+            target = B6B8C95F2F39C9EF000D14FB /* Bankids */;
+            targetProxy = BACC00000000000000000001 /* PBXContainerItemProxy */;
+        };
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+        BACC0000000000000000001C /* Release */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                CODE_SIGN_STYLE = Automatic;
+                GENERATE_INFOPLIST_FILE = YES;
+                IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+                PRODUCT_BUNDLE_IDENTIFIER = jp.hibiki.bankids.uitests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SWIFT_VERSION = 5.0;
+                TARGETED_DEVICE_FAMILY = "1,2";
+                TEST_TARGET_NAME = Bankids;
+            };
+            name = Release;
+        };
+        BACC0000000000000000001B /* Debug */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                CODE_SIGN_STYLE = Automatic;
+                GENERATE_INFOPLIST_FILE = YES;
+                IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+                PRODUCT_BUNDLE_IDENTIFIER = jp.hibiki.bankids.uitests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SWIFT_VERSION = 5.0;
+                TARGETED_DEVICE_FAMILY = "1,2";
+                TEST_TARGET_NAME = Bankids;
+            };
+            name = Debug;
+        };
+        BACC0000000000000000000C /* Release */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                BUNDLE_LOADER = "$(TEST_HOST)";
+                CODE_SIGN_STYLE = Automatic;
+                GENERATE_INFOPLIST_FILE = YES;
+                IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+                PRODUCT_BUNDLE_IDENTIFIER = jp.hibiki.bankids.tests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SWIFT_VERSION = 5.0;
+                TARGETED_DEVICE_FAMILY = "1,2";
+                TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bankids.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Bankids";
+            };
+            name = Release;
+        };
+        BACC0000000000000000000B /* Debug */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                BUNDLE_LOADER = "$(TEST_HOST)";
+                CODE_SIGN_STYLE = Automatic;
+                GENERATE_INFOPLIST_FILE = YES;
+                IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+                PRODUCT_BUNDLE_IDENTIFIER = jp.hibiki.bankids.tests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SWIFT_VERSION = 5.0;
+                TARGETED_DEVICE_FAMILY = "1,2";
+                TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bankids.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Bankids";
+            };
+            name = Debug;
+        };
 		B6B8C96B2F39C9F0000D14FB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -323,6 +499,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+        BACC0000000000000000001A /* Build configuration list for BankidsUITests */ = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                BACC0000000000000000001B /* Debug */,
+                BACC0000000000000000001C /* Release */,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+        };
+        BACC0000000000000000000A /* Build configuration list for BankidsTests */ = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                BACC0000000000000000000B /* Debug */,
+                BACC0000000000000000000C /* Release */,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+        };
 		B6B8C95B2F39C9EF000D14FB /* Build configuration list for PBXProject "Bankids" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

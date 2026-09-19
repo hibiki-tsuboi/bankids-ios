@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    var onOpenBackup: () -> Void
     @Environment(\.modelContext) private var modelContext
     @Environment(AccountManager.self) private var accountManager
     @Query private var accounts: [Account]
@@ -52,6 +53,13 @@ struct ContentView: View {
             }
             .background(Color("BackgroundGray"))
             .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: onOpenBackup) {
+                        Image(systemName: "externaldrive")
+                            .foregroundStyle(.white)
+                    }
+                    .accessibilityLabel("バックアップと復元")
+                }
                 ToolbarItem(placement: .principal) {
                     Text(selectedAccount?.name ?? "FamiBank")
                         .font(.headline)
@@ -65,6 +73,7 @@ struct ContentView: View {
                             .font(.title3)
                             .foregroundStyle(.white)
                     }
+                    .accessibilityLabel("子供を選択")
                 }
             }
             .navigationDestination(isPresented: $showingDeposit) {
@@ -137,6 +146,7 @@ struct ContentView: View {
                 .foregroundStyle(.white.opacity(0.8))
 
             Text("¥\(balance.formatted())")
+                .accessibilityIdentifier("home.balance")
                 .font(.system(size: 48, weight: .bold, design: .rounded))
                 .foregroundStyle(.white)
         }
@@ -332,7 +342,7 @@ struct TransactionRow: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(onOpenBackup: {})
         .modelContainer(for: [Account.self, Wallet.self, Transaction.self], inMemory: true)
         .environment(AccountManager())
 }

@@ -11,13 +11,17 @@ import Foundation
 final class AccountManager {
     private static let selectedAccountIDKey = "selectedAccountID"
     private static let selectedWalletIDKey = "selectedWalletID"
+    private let defaults: UserDefaults
+
+    // Recreate screens holding model references after a complete restore.
+    var dataRevision = UUID()
 
     var selectedAccountID: UUID? {
         didSet {
             if let id = selectedAccountID {
-                UserDefaults.standard.set(id.uuidString, forKey: Self.selectedAccountIDKey)
+                defaults.set(id.uuidString, forKey: Self.selectedAccountIDKey)
             } else {
-                UserDefaults.standard.removeObject(forKey: Self.selectedAccountIDKey)
+                defaults.removeObject(forKey: Self.selectedAccountIDKey)
             }
             // アカウント切替時にウォレット選択をリセット
             if oldValue != selectedAccountID {
@@ -29,19 +33,24 @@ final class AccountManager {
     var selectedWalletID: UUID? {
         didSet {
             if let id = selectedWalletID {
-                UserDefaults.standard.set(id.uuidString, forKey: Self.selectedWalletIDKey)
+                defaults.set(id.uuidString, forKey: Self.selectedWalletIDKey)
             } else {
-                UserDefaults.standard.removeObject(forKey: Self.selectedWalletIDKey)
+                defaults.removeObject(forKey: Self.selectedWalletIDKey)
             }
         }
     }
 
-    init() {
-        if let string = UserDefaults.standard.string(forKey: Self.selectedAccountIDKey),
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+        // Account selection can clear the stored wallet through its observer.
+        // Read both values before assigning either observable property.
+        let savedAccountID = defaults.string(forKey: Self.selectedAccountIDKey)
+        let savedWalletID = defaults.string(forKey: Self.selectedWalletIDKey)
+        if let string = savedAccountID,
            let uuid = UUID(uuidString: string) {
             self.selectedAccountID = uuid
         }
-        if let string = UserDefaults.standard.string(forKey: Self.selectedWalletIDKey),
+        if let string = savedWalletID,
            let uuid = UUID(uuidString: string) {
             self.selectedWalletID = uuid
         }
